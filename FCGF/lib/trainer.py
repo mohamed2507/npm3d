@@ -69,7 +69,7 @@ class AlignmentTrainer:
       raise ValueError('GPU not available, but cuda flag set')
 
     self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    if optim=="Adam" or optim=="ADAM":
+    if config.optimizer=="Adam" or config.optimizer=="ADAM":
       self.optimizer = getattr(optim, config.optimizer)(
         model.parameters(),
         lr=config.lr,)
