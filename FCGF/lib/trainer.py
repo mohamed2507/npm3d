@@ -313,7 +313,7 @@ class ContrastiveLossTrainer(AlignmentTrainer):
     for batch_idx in range(tot_num_data):
       data_timer.tic()
       input_dict = next(data_loader_iter_)
-      print(input_dict)
+      
       data_timer.toc()
 
       # pairs consist of (xyz1 index, xyz0 index)
