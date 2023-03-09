@@ -16,6 +16,8 @@ add_models(denseunet)
 
 
 def load_model(name):
+  print(name)
+  exit()
   '''Creates and returns an instance of the model given its class name.
   '''
   # Find the model class from its name
