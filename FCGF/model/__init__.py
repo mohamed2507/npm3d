@@ -31,5 +31,5 @@ def load_model(name):
     return None
   NetClass = mdict[name]
   print(NetClass)
-  exit()
+
   return NetClass
