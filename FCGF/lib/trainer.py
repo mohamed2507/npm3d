@@ -69,12 +69,16 @@ class AlignmentTrainer:
       raise ValueError('GPU not available, but cuda flag set')
 
     self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    self.optimizer = getattr(optim, config.optimizer)(
+    if optim=="Adam" or optim=="ADAM":
+      self.optimizer = getattr(optim, config.optimizer)(
         model.parameters(),
-        lr=config.lr,
-        momentum=config.momentum,
-        weight_decay=config.weight_decay)
+        lr=config.lr,)
+    else:
+      self.optimizer = getattr(optim, config.optimizer)(
+          model.parameters(),
+          lr=config.lr,
+          momentum=config.momentum,
+          weight_decay=config.weight_decay)
 
     self.scheduler = optim.lr_scheduler.ExponentialLR(self.optimizer, config.exp_gamma)
 
@@ -313,7 +317,7 @@ class ContrastiveLossTrainer(AlignmentTrainer):
     for batch_idx in range(tot_num_data):
       data_timer.tic()
       input_dict = next(data_loader_iter_)
-      
+
       data_timer.toc()
 
       # pairs consist of (xyz1 index, xyz0 index)
