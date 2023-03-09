@@ -17,7 +17,7 @@ add_models(denseunet)
 
 def load_model(name):
   print(name)
-  exit()
+
   '''Creates and returns an instance of the model given its class name.
   '''
   # Find the model class from its name
@@ -30,5 +30,6 @@ def load_model(name):
       logging.info('\t* {}'.format(model.__name__))
     return None
   NetClass = mdict[name]
-
+  print(NetClass)
+  exit()
   return NetClass
