@@ -212,7 +212,7 @@ class ContrastiveLossTrainer(AlignmentTrainer):
 
     data_loader = self.data_loader
     data_loader_iter = self.data_loader.__iter__()
-
+    data_loader_iter_=iter(data_loader_iter)
     iter_size = self.iter_size
     start_iter = (epoch - 1) * (len(data_loader) // iter_size)
 
@@ -225,10 +225,11 @@ class ContrastiveLossTrainer(AlignmentTrainer):
 
       data_time = 0
       total_timer.tic()
+
       for iter_idx in range(iter_size):
         # Caffe iter size
         data_timer.tic()
-        input_dict = data_loader_iter.next()
+        input_dict = next(data_loader_iter_)
         data_time += data_timer.toc(average=False)
 
         # pairs consist of (xyz1 index, xyz0 index)
@@ -308,10 +309,11 @@ class ContrastiveLossTrainer(AlignmentTrainer):
     if self.val_max_iter > 0:
       tot_num_data = min(self.val_max_iter, tot_num_data)
     data_loader_iter = self.val_data_loader.__iter__()
-
+    data_loader_iter_=iter(data_loader_iter)
     for batch_idx in range(tot_num_data):
       data_timer.tic()
-      input_dict = data_loader_iter.next()
+      input_dict = next(data_loader_iter_)
+      print(input_dict)
       data_timer.toc()
 
       # pairs consist of (xyz1 index, xyz0 index)
@@ -457,6 +459,7 @@ class HardestContrastiveLossTrainer(ContrastiveLossTrainer):
     total_num = 0.0
     data_loader = self.data_loader
     data_loader_iter = self.data_loader.__iter__()
+    data_loader_iter_ = iter(data_loader_iter)
     iter_size = self.iter_size
     data_meter, data_timer, total_timer = AverageMeter(), Timer(), Timer()
     start_iter = (epoch - 1) * (len(data_loader) // iter_size)
@@ -466,9 +469,10 @@ class HardestContrastiveLossTrainer(ContrastiveLossTrainer):
 
       data_time = 0
       total_timer.tic()
+
       for iter_idx in range(iter_size):
         data_timer.tic()
-        input_dict = data_loader_iter.next()
+        input_dict = next(data_loader_iter_)
         data_time += data_timer.toc(average=False)
 
         sinput0 = ME.SparseTensor(
@@ -587,6 +591,7 @@ class TripletLossTrainer(ContrastiveLossTrainer):
     total_num = 0.0
     data_loader = self.data_loader
     data_loader_iter = self.data_loader.__iter__()
+    data_loader_iter_ = iter(data_loader_iter)
     iter_size = self.iter_size
     data_meter, data_timer, total_timer = AverageMeter(), Timer(), Timer()
     pos_dist_meter, neg_dist_meter = AverageMeter(), AverageMeter()
@@ -596,9 +601,10 @@ class TripletLossTrainer(ContrastiveLossTrainer):
       batch_loss = 0
       data_time = 0
       total_timer.tic()
+
       for iter_idx in range(iter_size):
         data_timer.tic()
-        input_dict = data_loader_iter.next()
+        input_dict = next(data_loader_iter_)
         data_time += data_timer.toc(average=False)
 
         # pairs consist of (xyz1 index, xyz0 index)
